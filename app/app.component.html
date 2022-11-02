@@ -1,0 +1,87 @@
+<!-- // Exercise 1.1: Send a Post request to firebase to add movie data -->
+
+<h1>My Movies</h1>
+<h3>Add Movie</h3>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form #movieForm="ngForm" (ngSubmit)="onCreateMovie(movieForm.value)">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            [(ngModel)]="movieForm.title"
+            name="title"
+            required
+            title
+            class="form-control"
+            #title="ngModel"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="text">Genre</label>
+          <input
+            type="text"
+            id="genre"
+            [(ngModel)]="movieForm.genre"
+            name="title"
+            name="genre"
+            required
+            genre
+            class="form-control"
+            #genre="ngModel"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary my-3"
+          [disabled]="!movieForm.valid"
+        >
+          Create movie
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- // Exercise 1.2: Send a get request to firebase to retrieve movie data -->
+  <h3>List of Movies</h3>
+  <button class="btn btn-primary my-3" (click)="onFetchMovies()">
+    Retrieve Movies
+  </button>
+</div>
+<!-- Exercise 1.4: Send a delete request to delete all movie data -->
+<button
+  class="btn btn-danger"
+  [disabled]="loadedMovies.length < 1"
+  (click)="onClearMovies()"
+>
+  Clear Movies
+</button>
+
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <p *ngIf="loadedMovies.length == 0 && !isFetching">No posts available!</p>
+    <ul class="list-group" *ngIf="loadedMovies.length > 0 && !isFetching">
+      <li class="list-group-item" *ngFor="let movie of loadedMovies">
+        <h4>{{ movie.title }}</h4>
+        <p>{{ movie.genre }}</p>
+      </li>
+    </ul>
+    <!-- Exercise 1.3: Add a loading icon when sending a get request to firebase -->
+    <div class="lds-dual-ring" *ngIf="isFetching && !error"></div>
+  </div>
+
+  <!-- Exercise 1.5: Output an error message when retrieving an error response -->
+  <!-- not showing error message -->
+  <button class="btn btn-primary" (click)="onHandleError()">
+    Retrieve data from fake URL endpoint
+  </button>
+  <div class="alert alert-danger" *ngIf="error">
+    <h3>An error has occured.</h3>
+    <p>{{ error }}</p>
+  </div>
+</div>
+}
